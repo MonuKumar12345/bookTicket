@@ -1,0 +1,21 @@
+.grid-container {
+    padding: 10px;
+}
+
+.container-fluid{
+    background-image: linear-gradient(62deg, rgb(142, 197, 252) 0%, rgb(224, 195, 252) 100%);
+}
+
+.seatFilled_color {
+    background-color: #2196F3;
+    text-align: center;
+    font-size: 20px;
+    margin: 2px;
+}
+.seatEmpty_color {
+    background-color: #FFFFFF;
+    border:1px solid #2196F3;
+    text-align: center;
+    font-size: 20px;
+    margin: 2px;
+}

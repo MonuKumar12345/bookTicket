@@ -1,0 +1,38 @@
+<div class="container-fluid">
+    <div class="mt-2 mb-2">
+        <form (submit)="onbooking(form)" #form="ngForm" method="post">
+            <div class="row">
+                <div class="col-lg-6 col-lg-6 offset-lg-3 card shadow-sm p-3 mt-5">
+                    <div [ngClass]="bSuccess? 'alert alert-success':'alert alert-danger'" *ngIf="sMessage" role="alert">
+                        {{sMessage}}
+                    </div>
+                    <h3 class="text-center">Book The seat</h3>
+                    <div class="form-group">
+                        <label>User Id</label>
+                        <input type="text" class="form-control" placeholder="Enter user id" name="id" ngModel #id="ngModel">
+                    </div>
+                    <div class="form-group">
+                        <label>Seats</label>
+                        <input type="number" class="form-control" placeholder="No. of seats" name="seats" ngModel #seats="ngModel">
+                        <p style="font-size:10px">*Seats can be booked upto 7</p>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="form-control btn btn-success" name="book" value="Book">
+                    </div>
+                </div>
+            </div> 
+        </form>
+    </div>
+    <div class="mt-5 mb-5 text-center card shadow-sm col-lg-6 offset-lg-3 py-4" *ngIf="sSeatsNumber">
+      <div>Your seats number are: {{sSeatsNumber}}</div>    
+    </div>
+    <div class="mt-2 mb-2 card shadow-sm p-3 text-center">
+      <p>*colored Block for booked seat</p>
+       <p>*border Block for vacant seat</p>
+        <div *ngFor="let aTotalSeats of aaTotalSeats" class="grid-container row">
+            <div *ngFor="let iSeat of aTotalSeats" [ngClass]="seatBooked(iSeat)? 'seatFilled_color col' : 'seatEmpty_color col'">{{iSeat}}</div>
+        </div>
+    </div>
+  </div>
+  
+<router-outlet></router-outlet>
