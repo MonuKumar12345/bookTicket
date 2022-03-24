@@ -51,7 +51,7 @@ if(isset($_POST['id']) && !empty($_POST['id']) &&  isset($_POST['seats']) && !em
                         break;
                     }  
                 }
-                $query_result=mysqli_query($connection,"INSERT INTO `train_book`(`userId`, `seats`, `seats_no`) VALUES ('$id','$iSeatsToBook',' $aSeatsToBookJson')");
+                $query_result=mysqli_query($connection,"INSERT INTO `seat_book`(`userId`, `seats`, `seats_no`) VALUES ('$id','$iSeatsToBook',' $aSeatsToBookJson')");
 
                 if($query_result){
                     $aaData['sStatus'] = 'success';

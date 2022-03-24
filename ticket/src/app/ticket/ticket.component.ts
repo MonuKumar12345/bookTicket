@@ -18,7 +18,7 @@ export class TicketComponent implements OnInit {
   constructor(private http:HttpClient) {}
 
   ngOnInit(): void {
-    this.http.get<any>('http://localhost/ticket_Book/backend/getAllSeats.php').subscribe({
+    this.http.get<any>('http://localhost/ticket_book/backend/getAllSeats.php').subscribe({
       next: (resp:any) =>  {
         this.bSuccess = (resp.sStatus=='success')?true:false;
         this.sMessage = resp.sMessage;
@@ -34,7 +34,7 @@ export class TicketComponent implements OnInit {
       const data = new FormData();
       data.append("id", form.value.id);
       data.append("seats", form.value.seats);
-      this.http.post<any>('http://localhost/ticket_Book/backend/bookSeats.php',data).subscribe({
+      this.http.post<any>('http://localhost/ticket_book/backend/bookSeats.php',data).subscribe({
         next: (resp:any) =>  {
           this.bSuccess = (resp.sStatus=='success')?true:false;
           this.sMessage = resp.sMessage;

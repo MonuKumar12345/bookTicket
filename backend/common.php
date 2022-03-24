@@ -18,7 +18,7 @@ function getTotalseats($iTotalSeats, $iSeatsPerRow){
 function userIdAlreadyExist($id){
     global $connection;
     $bAlreadyExist = true;
-    $user_result=mysqli_query($connection,"SELECT * FROM `train_book` WHERE userId='$id'");
+    $user_result=mysqli_query($connection,"SELECT * FROM `seat_book` WHERE userId='$id'");
     if(mysqli_num_rows($user_result)==0){
         $bAlreadyExist = false;
     }
@@ -27,7 +27,7 @@ function userIdAlreadyExist($id){
 function getUserBookedSeats($id){
     global $connection;
     $aTotalBookedSeats = [];
-    $user_result=mysqli_query($connection,"SELECT * FROM `train_book` WHERE userId='$id'");
+    $user_result=mysqli_query($connection,"SELECT * FROM `seat_book` WHERE userId='$id'");
     if($user_result){
         $aTotalBookedSeats=json_decode(mysqli_fetch_assoc($user_result)['seats_no'],true);
     }
@@ -35,7 +35,7 @@ function getUserBookedSeats($id){
 }
 function getRemainingSeats($aaTotalSeatsNumber){
     global $connection;
-    $rsBookedSeats=mysqli_query($connection,"SELECT * FROM `train_book`");
+    $rsBookedSeats=mysqli_query($connection,"SELECT * FROM `seat_book`");
     if(mysqli_num_rows($rsBookedSeats)==0){
         array_merge([], $aaTotalSeatsNumber);
     }
@@ -56,7 +56,7 @@ function getRemainingSeats($aaTotalSeatsNumber){
 function getAllBookedSeats(){
     global $connection;
     $aTotalBookedSeats = [];
-    $rsBookedSeats=mysqli_query($connection,"SELECT * FROM `train_book`");
+    $rsBookedSeats=mysqli_query($connection,"SELECT * FROM `seat_book`");
     while($rows=mysqli_fetch_assoc($rsBookedSeats)){
         $aTotalBookedSeats = array_merge($aTotalBookedSeats,json_decode($rows['seats_no'], true));
         sort($aTotalBookedSeats);
