@@ -42,12 +42,7 @@ function getRemainingSeats($aaTotalSeatsNumber){
     else{
         while($rows=mysqli_fetch_assoc($rsBookedSeats)){  
             foreach($aaTotalSeatsNumber as $key=>$aSeatsNumber){
-                if($rows['seats']<=count($aSeatsNumber))
-                {
-                    $aaTotalSeatsNumber[$key] = array_diff($aaTotalSeatsNumber[$key], json_decode($rows['seats_no'],true));
-                }else{
-                    $aaTotalSeatsNumber[$key] = $aaTotalSeatsNumber[$key];
-                }
+                $aaTotalSeatsNumber[$key] = array_diff($aSeatsNumber, json_decode($rows['seats_no'],true));
             }
         };
     }

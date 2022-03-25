@@ -20,21 +20,12 @@ $aaData['aData']= [];
 $aaSeatsNumber = getTotalseats($iTotalSeats, $iSeatsPerRow);
 
 function seatsCanBeBookedOrNot($aaTotalRemainingSeatsNumber){
-    global $imaxSeats, $iSeatsToBook, $iSeatsPerRow;
-    $bflag = true;
+    global $imaxSeats;
     foreach($aaTotalRemainingSeatsNumber as $aTotalRemainingSeatsNumber ){
-        if(count($aTotalRemainingSeatsNumber)<$iSeatsToBook){
-            if($imaxSeats<count($aTotalRemainingSeatsNumber)){
-                $imaxSeats = count($aTotalRemainingSeatsNumber);
-            }
-            $bflag = false;
-        }else{
-            $imaxSeats = $iSeatsPerRow;
-            $bflag = true;
-            break;
+        if(count($aTotalRemainingSeatsNumber)>$imaxSeats){
+            $imaxSeats = count($aTotalRemainingSeatsNumber);
         }
     }
-    return  $bflag;
 }
 if(isset($_POST['id']) && !empty($_POST['id']) &&  isset($_POST['seats']) && !empty($_POST['seats'])){
     $id=$_POST['id'];
@@ -42,14 +33,18 @@ if(isset($_POST['id']) && !empty($_POST['id']) &&  isset($_POST['seats']) && !em
     if($iSeatsToBook<=$iSeatsPerRow){
         if(!userIdAlreadyExist($id)){
             $aaRemainingSeatsNumber = getRemainingSeats($aaSeatsNumber);
-            if(seatsCanBeBookedOrNot($aaRemainingSeatsNumber)){
-                foreach($aaRemainingSeatsNumber as $key=>$aSeatsNumber){
-                    if($iSeatsToBook<=count($aSeatsNumber))
-                    {
-                        $aSeatsToBook=array_slice($aaRemainingSeatsNumber[$key],0,$iSeatsToBook);
-                        $aSeatsToBookJson = json_encode($aSeatsToBook);
-                        break;
-                    }  
+            seatsCanBeBookedOrNot($aaRemainingSeatsNumber);
+            if((count($aaRemainingSeatsNumber, 1)-count($aaRemainingSeatsNumber))>$iSeatsToBook){
+                $aSeatsToBook = [];
+                if($imaxSeats>=$iSeatsToBook){
+                    foreach($aaRemainingSeatsNumber as $key=>$aSeatsNumber){
+                        if($iSeatsToBook<=count($aSeatsNumber))
+                        {
+                            $aSeatsToBook=array_merge($aSeatsToBook, array_slice($aaRemainingSeatsNumber[$key],0,$iSeatsToBook));
+                            $aSeatsToBookJson = json_encode($aSeatsToBook);
+                            break;
+                        } 
+                    }
                 }
                 $query_result=mysqli_query($connection,"INSERT INTO `seat_book`(`userId`, `seats`, `seats_no`) VALUES ('$id','$iSeatsToBook',' $aSeatsToBookJson')");
 
@@ -61,7 +56,6 @@ if(isset($_POST['id']) && !empty($_POST['id']) &&  isset($_POST['seats']) && !em
                     $aaData['aData']['Booked_seats']= getAllBookedSeats();
                     $aaData['aData']['maxSeats']= $imaxSeats;   
                 }
-                $booking_result=[$aaRemainingSeatsNumber,$aSeatsToBook];
             }
         }else{
             $aaRemainingSeatsNumber = getRemainingSeats($aaSeatsNumber);

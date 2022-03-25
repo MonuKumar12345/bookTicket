@@ -14,21 +14,12 @@ $iSeatsToBook = 0;
 $aaSeatsNumber = getTotalseats($iTotalSeats, $iSeatsPerRow);
 
 function seatsCanBeBookedOrNot($aaTotalRemainingSeatsNumber){
-    global $imaxSeats, $iSeatsToBook, $iSeatsPerRow;
-    $bflag = true;
+    global $imaxSeats;
     foreach($aaTotalRemainingSeatsNumber as $aTotalRemainingSeatsNumber ){
-        if(count($aTotalRemainingSeatsNumber)<$iSeatsToBook){
-            if($imaxSeats<count($aTotalRemainingSeatsNumber)){
-                $imaxSeats = count($aTotalRemainingSeatsNumber);
-            }
-            $bflag = false;
-        }else{
-            $imaxSeats = $iSeatsPerRow;
-            $bflag = true;
-            break;
+        if(count($aTotalRemainingSeatsNumber)>$imaxSeats){
+            $imaxSeats = count($aTotalRemainingSeatsNumber);
         }
     }
-    return  $bflag;
 }
 
 $aaRemainingSeatsNumber = getRemainingSeats($aaSeatsNumber);
