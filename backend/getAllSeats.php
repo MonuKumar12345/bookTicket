@@ -1,7 +1,7 @@
 <?php
 include_once("./common.php");
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods:POST");
+header("Access-Control-Allow-Methods:GET");
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 $connection=mysqli_connect('localhost','root','','ticket');
 
